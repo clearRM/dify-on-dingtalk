@@ -1,8 +1,11 @@
-FROM python:3.10-slim-bookworm
+FROM registry.cn-hangzhou.aliyuncs.com/yumtown_x/python:3.10-slim-bookworm AS base
 LABEL authors="zfanswer"
 
 WORKDIR /app
 COPY . /app
+
+# 修改apt源
+RUN cp sources.list /etc/apt && mv /etc/apt/sources.list.d/debian.sources /etc/apt/sources.list.d/debian.sources.bak
 
 # 安装系统依赖
 RUN apt-get update && apt-get install -y --no-install-recommends build-essential \
